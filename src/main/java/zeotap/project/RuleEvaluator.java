@@ -9,19 +9,19 @@ public class RuleEvaluator {
         }
 
         if (node.type.equals("operand")) {
-            // Split the operand string into parts (e.g., "age > 30")
+            
             String[] parts = node.value.split(" ");
             if (parts.length != 3) {
                 throw new InvalidRuleException("Invalid operand structure: " + node.value);
             }
             String attribute = parts[0];
             String operator = parts[1];
-            String value = parts[2].replace("'", ""); // Handle string literals
+            String value = parts[2].replace("'", "");
 
-            // Get the actual value from data
+            
             Object actualValue = data.get(attribute);
             
-            // Ensure the actual value is not null and perform the comparison
+            
             if (actualValue == null) {
                 throw new InvalidRuleException("Invalid operand structure: " + attribute);
             }
