@@ -4,7 +4,7 @@ public class Node {
     String type; // "operator" or "operand"
     Node left;   // Left child node
     Node right;  // Right child node
-    String value; // The value or operator (like ">", "<=", etc.)
+    String value; // The value or operator 
 
     public Node(String type, Node left, Node right, String value) {
         this.type = type;
