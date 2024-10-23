@@ -55,29 +55,29 @@ public class RuleEngine {
                 if (operators.isEmpty() || !operators.peek().equals("(")) {
                     throw new InvalidRuleException("Mismatched parentheses.");
                 }
-                operators.pop(); // Remove the opening parentheses
+                operators.pop(); 
             } else if (token.equalsIgnoreCase("AND") || token.equalsIgnoreCase("OR")) {
                 operators.push(token);
             } else {
-                // Handle operands correctly: it should be in the form of "attribute operator value"
+                
                 String[] operandParts = token.split(" ");
                 if (operandParts.length == 3) {
                     String attribute = operandParts[0];
                     String operator = operandParts[1];
-                    String value = operandParts[2].replace("'", ""); // Handle string literals
+                    String value = operandParts[2].replace("'", ""); 
 
                     if (!validAttributes.contains(attribute)) {
                         throw new InvalidRuleException("Invalid attribute: " + attribute);
                     }
 
-                    stack.push(new Node("operand", null, null, token)); // Using the entire operand string
+                    stack.push(new Node("operand", null, null, token)); 
                 } else {
                     throw new InvalidRuleException("Invalid operand structure: " + token);
                 }
             }
         }
 
-        // Process remaining operators
+        
         while (!operators.isEmpty()) {
             String operator = operators.pop();
             if (operator.equals("(")) {
@@ -99,7 +99,7 @@ public class RuleEngine {
         if (rules.isEmpty()) {
             throw new InvalidRuleException("No rules to combine.");
         }
-        Node combined = rules.get(0); // Start with the first rule
+        Node combined = rules.get(0);
         for (int i = 1; i < rules.size(); i++) {
             combined = new Node("operator", combined, rules.get(i), "AND");
         }
