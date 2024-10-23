@@ -4,25 +4,25 @@ import java.util.Stack;
 
 public class RuleParser {
 
-    // Function to create AST from rule string
+   
     public Node createRule(String rule) {
-        // Validate the rule string
+        
         if (rule == null || rule.trim().isEmpty()) {
             throw new InvalidRuleException("Rule string cannot be null or empty.");
         }
 
-        // Handle parentheses and tokenization
+        
         String[] tokens = tokenizeRule(rule);
         return parseTokens(tokens);
     }
 
-    // Function to tokenize the rule string, handling parentheses
+    
     private String[] tokenizeRule(String rule) {
-        // This regex will split the rule while keeping parentheses intact
+        
         return rule.replaceAll("([()])", " $1 ").trim().split("\\s+");
     }
 
-    // Function to parse tokens and build the AST
+   
     private Node parseTokens(String[] tokens) {
         Stack<Node> stack = new Stack<>();
         Stack<String> operators = new Stack<>();
@@ -31,10 +31,10 @@ public class RuleParser {
             String token = tokens[i];
 
             if (token.equals("(")) {
-                // Open parentheses, push a placeholder for it
+               
                 operators.push(token);
             } else if (token.equals(")")) {
-                // Closing parentheses, process the expression inside
+               
                 while (!operators.isEmpty() && !operators.peek().equals("(")) {
                     Node right = stack.pop();
                     Node left = stack.pop();
@@ -44,27 +44,27 @@ public class RuleParser {
                 if (operators.isEmpty() || !operators.peek().equals("(")) {
                     throw new InvalidRuleException("Mismatched parentheses.");
                 }
-                operators.pop(); // Remove the opening parentheses
+                operators.pop(); 
             } else if (token.equalsIgnoreCase("AND") || token.equalsIgnoreCase("OR")) {
-                // Push the operator to the operator stack
+               
                 operators.push(token);
             } else {
-                // Operand, handle the whole expression for attributes
+                
                 String operand = token;
 
-                // Check if the next tokens are part of the operand
+              
                 if (i + 2 < tokens.length && isValidOperator(tokens[i + 1])) {
                     operand += " " + tokens[i + 1] + " " + tokens[i + 2];
-                    i += 2; // Move the index to skip over the operator and value
+                    i += 2; 
                 } else {
                     throw new InvalidRuleException("Invalid operand structure: " + token);
                 }
 
-                stack.push(new Node("operand", null, null, operand)); // Push the entire expression as the value
+                stack.push(new Node("operand", null, null, operand)); 
             }
         }
 
-        // Process remaining operators
+       
         while (!operators.isEmpty()) {
             String operator = operators.pop();
             if (operator.equals("(")) {
@@ -83,6 +83,6 @@ public class RuleParser {
     }
 
     private boolean isValidOperator(String token) {
-        return token.equals(">") || token.equals("<") || token.equals("="); // Add more operators if needed
+        return token.equals(">") || token.equals("<") || token.equals("="); 
     }
 }
